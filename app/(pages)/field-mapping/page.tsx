@@ -92,9 +92,9 @@ export default function FieldMapping() {
                   Click on the canvas to position your fields
                 </CardDescription>
               </CardHeader>
-              <CardContent>
-                <div className="relative w-full aspect-[1.414/1] bg-gradient-subtle rounded-lg border border-border overflow-hidden">
-                  <div className="absolute inset-0 bg-white/50">
+                <CardContent>
+                  <div data-tour="certificate-preview" className="relative w-full aspect-[1.414/1] bg-gradient-subtle rounded-lg border border-border overflow-hidden">
+                    <div className="absolute inset-0 bg-white/50">
                     {/* Konva overlay (client only) - dynamically loaded to avoid SSR issues */}
                     {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
                     {/* @ts-ignore-next-line */}
@@ -116,16 +116,17 @@ export default function FieldMapping() {
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle>Fields</CardTitle>
-                  <Button size="sm" onClick={addField}>
+                  <Button data-tour="add-field" size="sm" onClick={addField}>
                     <Plus className="w-4 h-4 mr-1" />
                     Add
                   </Button>
                 </div>
               </CardHeader>
               <CardContent className="space-y-2">
-                {fields.map((field) => (
+                {fields.map((field, idx) => (
                   <Button
                     key={field.id}
+                    data-tour={idx === 0 ? "first-field" : undefined}
                     variant={selectedField === field.id ? "default" : "outline"}
                     className="w-full justify-start"
                     onClick={() => setSelectedField(field.id)}
@@ -144,14 +145,11 @@ export default function FieldMapping() {
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
                     <Label>Field Name</Label>
-                    <Input
-                      value={selectedFieldData.name}
-                      onChange={(e) => updateField(selectedField, { name: e.target.value })}
-                    />
+                    <Input data-tour="field-name" value={selectedFieldData.name} onChange={(e) => updateField(selectedField, { name: e.target.value })} />
                   </div>
 
                   <div className="space-y-2">
-                    <Label>X Position: {selectedFieldData.x.toFixed(2)}%</Label>
+                    <Label data-tour="x-pos">X Position: {selectedFieldData.x.toFixed(2)}%</Label>
                     <Slider
                       value={[selectedFieldData.x]}
                       onValueChange={([x]) => updateField(selectedField, { x })}
@@ -161,7 +159,7 @@ export default function FieldMapping() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label>Y Position: {selectedFieldData.y.toFixed(2)}%</Label>
+                    <Label data-tour="y-pos">Y Position: {selectedFieldData.y.toFixed(2)}%</Label>
                     <Slider
                       value={[selectedFieldData.y]}
                       onValueChange={([y]) => updateField(selectedField, { y })}
@@ -197,7 +195,7 @@ export default function FieldMapping() {
               </Card>
             )}
 
-            <Button className="w-full" size="lg" onClick={handleSave}>
+            <Button data-tour="save-continue" className="w-full" size="lg" onClick={handleSave}>
               <Save className="w-4 h-4 mr-2" />
               Save & Continue
             </Button>

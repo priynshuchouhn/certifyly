@@ -70,7 +70,7 @@ export default function UploadTemplate() {
           </CardHeader>
           <CardContent className="space-y-6">
             {!uploadedFile ? (
-              <label className="flex flex-col items-center justify-center w-full h-64 border-2 border-dashed rounded-lg cursor-pointer bg-secondary hover:bg-secondary/80 transition-colors border-border">
+              <label data-tour="upload-area" className="flex flex-col items-center justify-center w-full h-64 border-2 border-dashed rounded-lg cursor-pointer bg-secondary hover:bg-secondary/80 transition-colors border-border">
                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
                   <Upload className="w-12 h-12 mb-4 text-muted-foreground" />
                   <p className="mb-2 text-sm text-foreground">
@@ -100,6 +100,7 @@ export default function UploadTemplate() {
                     size="icon"
                     className="absolute top-2 right-2"
                     onClick={handleRemove}
+                    data-tour="remove-template"
                   >
                     <X className="w-4 h-4" />
                   </Button>
@@ -111,7 +112,7 @@ export default function UploadTemplate() {
                       {(uploadedFile.size / 1024).toFixed(2)} KB
                     </p>
                   </div>
-                  <Button onClick={handleNext}>
+                  <Button data-tour="next-field-mapping" onClick={handleNext}>
                     Next: Field Mapping
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>

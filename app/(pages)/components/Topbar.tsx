@@ -2,7 +2,7 @@ import { Bell, Search, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-export function Topbar({ onOpenSidebar }: { onOpenSidebar?: () => void }) {
+export function Topbar({ onOpenSidebar, onStartTour }: { onOpenSidebar?: () => void; onStartTour?: () => void }) {
   return (
     <header className="h-16 border-b border-border sticky top-0 z-10 backdrop-blur-sm bg-card/80">
       <div className="h-full px-6 flex items-center justify-between gap-4">
@@ -26,6 +26,10 @@ export function Topbar({ onOpenSidebar }: { onOpenSidebar?: () => void }) {
         </div>
 
         <div className="flex items-center gap-2">
+          <Button variant="ghost" size="sm" onClick={() => onStartTour && onStartTour()}>
+            Tour
+          </Button>
+
           <Button variant="ghost" size="icon" className="relative">
             <Bell className="w-5 h-5" />
             <span className="absolute top-1 right-1 w-2 h-2 bg-primary rounded-full" />

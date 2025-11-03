@@ -3,10 +3,12 @@
 import React, { useState } from 'react'
 import { Sidebar } from './components/Sidebar'
 import { Topbar } from './components/Topbar'
+import Tour from './components/Tour'
 import Link from 'next/link'
 
 function Layout({ children }: { children: React.ReactNode }) {
   const [isSidebarOpen, setSidebarOpen] = useState(false)
+  const [showTour, setShowTour] = useState(false)
 
   return (
     <div className="flex min-h-screen w-full bg-background">
@@ -14,7 +16,8 @@ function Layout({ children }: { children: React.ReactNode }) {
       <Sidebar isOpen={isSidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       <div className="flex-1 flex flex-col">
-        <Topbar onOpenSidebar={() => setSidebarOpen(true)} />
+  <Topbar onOpenSidebar={() => setSidebarOpen(true)} onStartTour={() => setShowTour(true)} />
+  <Tour run={showTour} onClose={() => setShowTour(false)} />
         <main className="flex-1 p-6">
           {children}
         </main>

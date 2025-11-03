@@ -53,6 +53,8 @@ export function Sidebar({ isOpen = false, onClose }: { isOpen?: boolean; onClose
             <Link
               key={item.url}
               href={item.url}
+              // add data-tour attribute for the tour to target
+              data-tour={`nav-${item.title.toLowerCase().replace(/\s+/g, "-")}`}
               className={cn(
                 "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all",
                 isActive
@@ -83,7 +85,7 @@ export function Sidebar({ isOpen = false, onClose }: { isOpen?: boolean; onClose
             </div>
             <div className="mt-2">
               <Button asChild size="sm">
-                <a href="https://campusrank.org" target="_blank" rel="noopener noreferrer" className="text-xs">Visit</a>
+                <a data-tour="visit" href="https://campusrank.org" target="_blank" rel="noopener noreferrer" className="text-xs">Visit</a>
               </Button>
             </div>
           </div>
@@ -93,7 +95,7 @@ export function Sidebar({ isOpen = false, onClose }: { isOpen?: boolean; onClose
       <div className="p-4 border-t border-border">
         <div className="flex items-center gap-3 px-3 py-2">
           {/* Avatar: try to load /avatar.png from public; fallback to initials */}
-          <div className="w-8 h-8 rounded-full overflow-hidden bg-primary flex items-center justify-center relative">
+          <div data-tour="profile" className="w-8 h-8 rounded-full overflow-hidden bg-primary flex items-center justify-center relative">
             {!imgError ? (
               <Image
                 src="/avatar.jpeg"
@@ -171,7 +173,7 @@ export function Sidebar({ isOpen = false, onClose }: { isOpen?: boolean; onClose
                   </div>
                   <div className="mt-2">
                     <Button asChild size="sm">
-                      <a href="https://campusrank.org" target="_blank" rel="noopener noreferrer" className="text-xs">Visit</a>
+                      <a data-tour="visit" href="https://campusrank.org" target="_blank" rel="noopener noreferrer" className="text-xs">Visit</a>
                     </Button>
                   </div>
                 </div>
