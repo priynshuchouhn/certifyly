@@ -18,6 +18,10 @@ interface TextField {
   y: number;
   fontSize: number;
   color: string;
+  fontFamily?: string;
+  bold?: boolean;
+  italic?: boolean;
+  underline?: boolean;
 }
 
 export default function FieldMapping() {
@@ -30,7 +34,7 @@ export default function FieldMapping() {
         return JSON.parse(raw) as TextField[];
       }
     } catch {}
-    return [{ id: "1", name: "Name", x: 50, y: 50, fontSize: 24, color: "#000000" }];
+    return [{ id: "1", name: "Name", x: 50, y: 50, fontSize: 24, color: "#000000", fontFamily: "Inter", bold: false, italic: false, underline: false }];
   });
 
   const [selectedField, setSelectedField] = useState<string>(() => {
@@ -51,8 +55,12 @@ export default function FieldMapping() {
       // offset new fields slightly so they don't stack exactly on top of the default field
       x: Math.min(90, 50 + fields.length * 3),
       y: Math.min(90, 50 + fields.length * 3),
-      fontSize: 24,
-      color: "#000000",
+  fontSize: 24,
+  color: "#000000",
+  fontFamily: "Inter",
+  bold: false,
+  italic: false,
+  underline: false,
     };
     setFields([...fields, newField]);
     setSelectedField(newField.id);
@@ -181,6 +189,62 @@ export default function FieldMapping() {
                       max={Math.round(72 * previewScale)}
                       step={1}
                     />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label>Font Family</Label>
+                    <select
+                      value={selectedFieldData.fontFamily || "Inter"}
+                      onChange={(e) => updateField(selectedField, { fontFamily: e.target.value })}
+                      className="w-full border border-border rounded px-2 py-1 bg-transparent"
+                      data-tour="font-family"
+                    >
+                      <option>Inter</option>
+                      <option>Roboto</option>
+                      <option>Open Sans</option>
+                      <option>Lato</option>
+                      <option>Montserrat</option>
+                      <option>Merriweather</option>
+                      <option>Georgia</option>
+                      <option>Times New Roman</option>
+                      <option>Arial</option>
+                      <option>Courier New</option>
+                    </select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label>Style</Label>
+                    <div className="flex items-center space-x-2">
+                      <Button
+                        size="sm"
+                        variant={selectedFieldData.bold ? "default" : "outline"}
+                        onClick={() => updateField(selectedField, { bold: !selectedFieldData.bold })}
+                        aria-pressed={selectedFieldData.bold}
+                        title="Bold"
+                      >
+                        <span className="font-bold">B</span>
+                      </Button>
+
+                      <Button
+                        size="sm"
+                        variant={selectedFieldData.italic ? "default" : "outline"}
+                        onClick={() => updateField(selectedField, { italic: !selectedFieldData.italic })}
+                        aria-pressed={selectedFieldData.italic}
+                        title="Italic"
+                      >
+                        <span className="italic">I</span>
+                      </Button>
+
+                      <Button
+                        size="sm"
+                        variant={selectedFieldData.underline ? "default" : "outline"}
+                        onClick={() => updateField(selectedField, { underline: !selectedFieldData.underline })}
+                        aria-pressed={selectedFieldData.underline}
+                        title="Underline"
+                      >
+                        <span className="underline">U</span>
+                      </Button>
+                    </div>
                   </div>
 
                   <div className="space-y-2">
