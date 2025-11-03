@@ -1,14 +1,20 @@
-import React from 'react'
+"use client"
+
+import React, { useState } from 'react'
 import { Sidebar } from './components/Sidebar'
 import { Topbar } from './components/Topbar'
 import Link from 'next/link'
 
 function Layout({ children }: { children: React.ReactNode }) {
+  const [isSidebarOpen, setSidebarOpen] = useState(false)
+
   return (
     <div className="flex min-h-screen w-full bg-background">
-      <Sidebar />
+      {/* Desktop sidebar (visible on md+) and mobile drawer when isSidebarOpen */}
+      <Sidebar isOpen={isSidebarOpen} onClose={() => setSidebarOpen(false)} />
+
       <div className="flex-1 flex flex-col">
-        <Topbar />
+        <Topbar onOpenSidebar={() => setSidebarOpen(true)} />
         <main className="flex-1 p-6">
           {children}
         </main>
