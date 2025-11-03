@@ -127,6 +127,7 @@ export default function Certificates() {
       a.click();
       a.remove();
       URL.revokeObjectURL(url);
+      localStorage.clear();
       toast.success("ZIP generated — download should start shortly.");
     } catch (err) {
       console.error("ZIP generation failed", err);
@@ -264,7 +265,7 @@ export default function Certificates() {
 
         <div>
           {!templateUrl && (
-            <Card>
+            <Card className="mb-3">
               <CardContent>
                 <p className="text-muted-foreground">No template found. Go to Upload Template to add one.</p>
               </CardContent>
