@@ -13,18 +13,17 @@ export async function Topbar({ onOpenSidebar, onStartTour }: { onOpenSidebar?: (
     const token = process.env.GITHUB_TOKEN;
 
     if (token) {
+      // Authenticated request via Octokit (recommended). Works reliably and avoids low unauthenticated rate limits.
       const octokit = new Octokit({ auth: token });
       const { data } = await octokit.repos.get({ owner, repo });
       stars = typeof data.stargazers_count === "number" ? data.stargazers_count : null;
     } else {
-      // Unauthenticated fallback (rate-limited to 60 requests/hour per IP). Still cached server-side via Next's fetch revalidate wrapper.
-      const res = await fetch(`https://api.github.com/repos/${owner}/${repo}`, { next: { revalidate: 3600 } });
-      if (res.ok) {
-        const json = await res.json();
-        stars = typeof json.stargazers_count === "number" ? json.stargazers_count : null;
-      }
+      // Don't perform unauthenticated requests automatically; many environments (CI, corp networks)
+      // or browser-injected scripts can trigger errors or be rate-limited. To avoid noisy errors
+      // and unreliable counts, we skip the unauthenticated fetch when no token is provided.
+      stars = null;
     }
-  } catch (e) {
+  } catch {
     // ignore and show fallback
     stars = null;
   }
