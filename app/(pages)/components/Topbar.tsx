@@ -67,7 +67,6 @@ export async function Topbar({ onOpenSidebar, onStartTour }: { onOpenSidebar?: (
           <a
             href="https://github.com/priynshuchouhn/certifyly"
             target="_blank"
-            rel="noopener noreferrer"
             aria-label="View certifyly on GitHub"
             className="inline-flex items-center gap-2 px-3 py-1 rounded-md hover:bg-secondary text-sm text-muted-foreground"
           >
