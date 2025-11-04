@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Upload, ArrowRight, X } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 
 export default function UploadTemplate() {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
@@ -14,8 +13,9 @@ export default function UploadTemplate() {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      if (!file.type.startsWith("image/")) {
-        toast.error("Please upload an image file (JPG, PNG)");
+      // Accept images and PDFs
+      if (!(file.type.startsWith("image/") || file.type === "application/pdf")) {
+        toast.error("Please upload an image (JPG, PNG) or PDF file");
         return;
       }
       // read file as data URL and persist to localStorage so other pages can access it
@@ -76,25 +76,36 @@ export default function UploadTemplate() {
                   <p className="mb-2 text-sm text-foreground">
                     <span className="font-semibold">Click to upload</span> or drag and drop
                   </p>
-                  <p className="text-xs text-muted-foreground">PNG, JPG (MAX. 10MB)</p>
+                  <p className="text-xs text-muted-foreground">PNG, JPG, PDF (MAX. 10MB)</p>
                 </div>
                 <input
                   type="file"
                   className="hidden"
-                  accept="image/*"
+                  accept="image/*,application/pdf"
                   onChange={handleFileChange}
                 />
               </label>
             ) : (
               <div className="space-y-4">
                 <div className="relative rounded-lg overflow-hidden border border-border bg-secondary">
-                  <Image
-                    src={previewUrl}
-                    alt="Template preview"
-                    className="w-full h-auto"
-                    width={400}
-                    height={300}
-                  />
+                  {uploadedFile.type === "application/pdf" ? (
+                    // Embedded PDF preview with fallback link
+                    <object
+                      data={previewUrl}
+                      type="application/pdf"
+                      className="w-full"
+                      style={{ minHeight: 300 }}
+                    >
+                      <div className="p-4">
+                        <p className="text-sm">PDF preview not available. <a className="underline" href={previewUrl} target="_blank" rel="noreferrer">Open PDF</a></p>
+                      </div>
+                    </object>
+                  ) : (
+                    // plain img tag for image previews (data URLs supported)
+                    // use responsive sizing via CSS classes
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={previewUrl} alt="Template preview" className="w-full h-auto" />
+                  )}
                   <Button
                     variant="destructive"
                     size="icon"
